@@ -40,6 +40,16 @@ const Problem2 = () => {
       .then((data) => console.log(data));
   }, []);
 
+  const filterContacts = (countryList, onlyEven) => {
+    if (onlyEven) {
+      return countryList.filter((country) => country.id % 2 === 0);
+    }
+    return countryList;
+  };
+
+  const filteredContactsA = filterContacts(contacts, onlyEvenA);
+  const filteredContactsB = filterContacts(contacts, onlyEvenB);
+
   return (
     <div className="container">
       <div className="row justify-content-center mt-5">
@@ -67,7 +77,7 @@ const Problem2 = () => {
             <Modal.Title>Modal A</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {contacts.map((contact) => (
+            {filteredContactsA.map((contact) => (
               <div key={contact.id}>
                 <h5>{contact.phone}</h5>
                 <h5>{contact.country.name}</h5>
@@ -114,7 +124,7 @@ const Problem2 = () => {
             <Modal.Title>Modal B</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {contacts.map(
+            {filteredContactsB.map(
               (contact) =>
                 contact.country.name == "United States" && (
                   <div key={contact.id}>
