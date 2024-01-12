@@ -7,6 +7,8 @@ const Problem2 = () => {
   const [onlyEvenA, setOnlyEvenA] = useState(false);
   const [onlyEvenB, setOnlyEvenB] = useState(false);
   const [contacts, setContacts] = useState([]);
+  const [showModalC, setShowModalC] = useState(false);
+  const [selectedContact, setSelectedContact] = useState(null);
 
   const handleOpenModalA = () => {
     setShowModalA(true);
@@ -24,6 +26,14 @@ const Problem2 = () => {
 
   const handleCloseModalB = () => {
     setShowModalB(false);
+  };
+
+  const handleOpenModalC = (contact) => {
+    setSelectedContact(contact);
+    setShowModalC(true);
+  };
+  const handleCloseModalC = () => {
+    setShowModalC(false);
   };
 
   useEffect(() => {
@@ -78,10 +88,15 @@ const Problem2 = () => {
           </Modal.Header>
           <Modal.Body>
             {filteredContactsA.map((contact) => (
-              <div key={contact.id}>
-                <h5>{contact.phone}</h5>
-                <h5>{contact.country.name}</h5>
-              </div>
+              <button
+                key={contact.id}
+                onClick={() => handleOpenModalC(contact)}
+              >
+                <div>
+                  <h5>{contact.phone}</h5>
+                  <h5>{contact.country.name}</h5>
+                </div>
+              </button>
             ))}
             <br />
             <Button
@@ -127,10 +142,15 @@ const Problem2 = () => {
             {filteredContactsB.map(
               (contact) =>
                 contact.country.name == "United States" && (
-                  <div key={contact.id}>
-                    <h5>{contact.phone}</h5>
-                    <h5>{contact.country.name}</h5>
-                  </div>
+                  <button
+                    key={contact.id}
+                    onClick={() => handleOpenModalC(contact)}
+                  >
+                    <div>
+                      <h5>{contact.phone}</h5>
+                      <h5>{contact.country.name}</h5>
+                    </div>
+                  </button>
                 )
             )}
             <br />
@@ -167,6 +187,19 @@ const Problem2 = () => {
               onChange={() => setOnlyEvenB(!onlyEvenB)}
             />
           </Modal.Footer>
+        </Modal>
+        <Modal show={showModalC} onHide={handleCloseModalC}>
+          <Modal.Header closeButton>
+            <Modal.Title>Modal C</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {selectedContact && (
+              <>
+                <h5>{selectedContact.phone}</h5>
+                <h5>{selectedContact.country.name}</h5>
+              </>
+            )}
+          </Modal.Body>
         </Modal>
       </div>
     </div>
