@@ -8,11 +8,9 @@ const Problem1 = () => {
 
   const handleClick = (val) => {
     setShow(val);
-    console.log(show);
   };
 
   const handleAddTask = () => {
-    console.log(newTaskName, newTaskStatus);
     if (newTaskName.trim() !== "" && newTaskStatus.trim() !== "") {
       const newTask = { name: newTaskName, status: newTaskStatus };
       setTasks((prevTasks) => {
@@ -29,7 +27,6 @@ const Problem1 = () => {
       setNewTaskName("");
       setNewTaskStatus("");
     }
-    console.log(tasks);
   };
 
   return (
