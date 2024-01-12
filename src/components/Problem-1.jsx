@@ -8,17 +8,28 @@ const Problem1 = () => {
 
   const handleClick = (val) => {
     setShow(val);
+    console.log(show);
   };
 
   const handleAddTask = () => {
     console.log(newTaskName, newTaskStatus);
     if (newTaskName.trim() !== "" && newTaskStatus.trim() !== "") {
       const newTask = { name: newTaskName, status: newTaskStatus };
-      setTasks([...tasks, newTask]);
-      console.log(tasks);
+      setTasks((prevTasks) => {
+        const updatedTasks = [...prevTasks, newTask];
+        updatedTasks.sort((a, b) => {
+          const statusOrder = { active: 1, completed: 2 };
+          const statusA = statusOrder[a.status] || 3;
+          const statusB = statusOrder[b.status] || 3;
+          return statusA - statusB;
+        });
+        return updatedTasks;
+      });
+
       setNewTaskName("");
       setNewTaskStatus("");
     }
+    console.log(tasks);
   };
 
   return (
@@ -93,12 +104,33 @@ const Problem1 = () => {
                 <th scope="col">Name</th>
                 <th scope="col">Status</th>
               </tr>
-              {tasks.map((task, key) => (
-                <tr key={key}>
-                  <td>{task.name}</td>
-                  <td>{task.status}</td>
-                </tr>
-              ))}
+              {show === "all" &&
+                tasks.map((task, key) => (
+                  <tr key={key}>
+                    <td>{task.name}</td>
+                    <td>{task.status}</td>
+                  </tr>
+                ))}
+              {show === "active" &&
+                tasks.map(
+                  (task, key) =>
+                    task.status.toLowerCase() === "active" && (
+                      <tr key={key}>
+                        <td>{task.name}</td>
+                        <td>{task.status}</td>
+                      </tr>
+                    )
+                )}
+              {show === "completed" &&
+                tasks.map(
+                  (task, key) =>
+                    task.status.toLowerCase() === "completed" && (
+                      <tr key={key}>
+                        <td>{task.name}</td>
+                        <td>{task.status}</td>
+                      </tr>
+                    )
+                )}
             </thead>
             <tbody></tbody>
           </table>
